@@ -1,15 +1,13 @@
-import fastify from 'fastify';
+import server from './app';
 
-const server = fastify();
-
-server.get('/ping', async (request, reply) => {
-  return 'pong\n';
-});
-
-server.listen({ port: 8032 }, (err, address) => {
-  if (err) {
+const start = async () => {
+  try {
+    await server.listen({ port: 8032 });
+    console.log(`Server listening on port 8032`);
+  } catch (err) {
     console.error(err);
     process.exit(1);
   }
-  console.log(`Server listening at ${address}`);
-});
+};
+
+start();
