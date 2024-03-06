@@ -1,9 +1,11 @@
 import server from './app';
 
+const port = 5175;
+
 const start = async () => {
   try {
-    await server.listen({ port: 8080 });
-    console.log(`Server listening on port 8032`);
+    await server.listen({ port });
+    console.log(`Server listening on port ${port}`);
   } catch (err) {
     console.error(err);
     process.exit(1);
