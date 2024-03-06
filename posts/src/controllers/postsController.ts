@@ -1,19 +1,17 @@
-import { randomBytes } from 'node:crypto';
 import { FastifyRequest, FastifyReply } from 'fastify';
 
+import { postService } from '../services/postService';
 import { IPost } from '../types';
-import { posts } from '../models/post';
 
 export async function getPosts(request: FastifyRequest, reply: FastifyReply) {
-  const postsArray = Array.from(posts.values());
+  const postsArray = postService.getAllPosts();
+
   reply.send(postsArray);
 }
 
 export async function createPost(request: FastifyRequest, reply: FastifyReply) {
   const { title } = request.body as IPost;
-  const id = randomBytes(4).toString('hex');
+  const post = postService.createNewPost(title);
 
-  posts.set(id, { id, title });
-
-  reply.code(201).send(posts.get(id));
+  reply.code(201).send(post);
 }
