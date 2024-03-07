@@ -1,5 +1,5 @@
-import PostList from './PostList';
-import PostCreate from './PostCreate';
+import PostList from './components/PostList';
+import PostCreate from './components/PostCreate';
 
 function App() {
   return (

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import CommentCreate from './CommentCreate';
+import CommentList from './CommentList';
 
 type IPost = {
   id: string;
@@ -28,6 +29,7 @@ const PostList = () => {
             <h3>{post.title}</h3>
 
             <CommentCreate postId={post.id} />
+            <CommentList postId={post.id} />
           </div>
         </div>
       ))}
