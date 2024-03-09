@@ -15,7 +15,21 @@ function createNewPost(title: string): IPost {
   return newPost;
 }
 
+async function notifyEventBus({ type, data }: { type: string; data: IPost }) {
+  return fetch('http://localhost:5176/events', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      type,
+      data,
+    }),
+  });
+}
+
 export const postService = {
   getAllPosts,
   createNewPost,
+  notifyEventBus,
 };

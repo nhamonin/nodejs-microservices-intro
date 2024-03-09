@@ -13,5 +13,7 @@ export async function createPost(request: FastifyRequest, reply: FastifyReply) {
   const { title } = request.body as IPost;
   const post = postService.createNewPost(title);
 
+  await postService.notifyEventBus({ type: 'PostCreated', data: post });
+
   reply.code(201).send(post);
 }
