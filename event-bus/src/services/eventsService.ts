@@ -1,15 +1,13 @@
 import { notify } from '../utils/notify';
+import { SERVICES_TO_NOTIFY } from '../config/config';
 import { IEvent } from '../types';
 
 async function handleEvents(event: IEvent) {
-  console.log('Received event:', event.type);
+  const servicesKeys = Object.keys(SERVICES_TO_NOTIFY) as Array<keyof typeof SERVICES_TO_NOTIFY>;
+  const destinationURLs = servicesKeys.map((service) => SERVICES_TO_NOTIFY[service]);
 
   try {
-    await Promise.all([
-      notify('http://localhost:5174/events', event), // posts service
-      notify('http://localhost:5175/events', event), // comments service
-      notify('http://localhost:5177/events', event), // query service
-    ]);
+    await Promise.all(destinationURLs.map((destination) => notify(destination, event)));
   } catch (err) {
     console.error(err);
   }
