@@ -1,7 +1,4 @@
-type IComment = {
-  id: string;
-  content: string;
-};
+import { IComment } from '../types';
 
 const CommentList = ({ comments }: { comments: IComment[] }) => {
   return (

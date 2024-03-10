@@ -13,10 +13,11 @@ function handleEvents(event: IEvent) {
   if (type === 'CommentCreated') {
     const comment = data as IComment & { postId: string };
     const postWithComments = posts.get(comment.postId);
+    const { postId, ...commentWithoutPostId } = comment;
 
     if (!postWithComments) return;
 
-    postWithComments.comments.push({ id: comment.id, content: comment.content });
+    postWithComments.comments.push(commentWithoutPostId);
   }
 }
 

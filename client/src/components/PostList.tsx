@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 
 import CommentCreate from './CommentCreate';
 import CommentList from './CommentList';
+import { IComment } from '../types';
 
 type IPost = {
   id: string;
   title: string;
-  comments: { id: string; content: string }[];
+  comments: IComment[];
 };
 
 const PostList = () => {

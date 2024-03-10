@@ -10,7 +10,7 @@ function getAllComments(postId: string): IComment[] {
 function createComment(postId: string, content: string): IComment[] {
   const commentId = randomBytes(4).toString('hex');
 
-  const newComment = { id: commentId, content };
+  const newComment = { id: commentId, content, status: 'pending' } as const;
 
   const postComments = comments.get(postId) || [];
   postComments.push(newComment);
