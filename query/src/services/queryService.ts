@@ -39,7 +39,20 @@ function getAllPostsWithComments() {
   return Array.from(posts.values());
 }
 
+async function syncEvents() {
+  const events = await fetch('http://localhost:5176/events');
+
+  if (!events.ok) {
+    throw new Error('Error fetching events');
+  }
+
+  const parsedEvents = await events.json();
+
+  parsedEvents.forEach(handleEvents);
+}
+
 export const queryService = {
   handleEvents,
   getAllPostsWithComments,
+  syncEvents,
 };

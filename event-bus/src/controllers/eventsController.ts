@@ -10,3 +10,9 @@ export async function handleEvents(request: FastifyRequest, reply: FastifyReply)
 
   reply.code(200).send({ status: 'OK' });
 }
+
+export function getEvents(request: FastifyRequest, reply: FastifyReply) {
+  const events = eventsService.getEvents();
+
+  reply.code(200).send(events);
+}

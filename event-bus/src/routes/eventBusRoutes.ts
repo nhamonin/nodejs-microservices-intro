@@ -1,8 +1,9 @@
 import { FastifyInstance } from 'fastify';
 
-import { handleEvents } from '../controllers/eventsController';
+import { handleEvents, getEvents } from '../controllers/eventsController';
 
 async function routes(fastify: FastifyInstance) {
+  fastify.get('/events', getEvents);
   fastify.post('/events', handleEvents);
 }
 
