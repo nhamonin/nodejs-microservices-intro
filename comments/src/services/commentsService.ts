@@ -20,7 +20,27 @@ function createComment(postId: string, content: string): IComment[] {
   return comments.get(postId) || [];
 }
 
+async function notifyEventBus({
+  type,
+  data,
+}: {
+  type: string;
+  data: IComment & { postId: string };
+}) {
+  return fetch('http://localhost:5176/events', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      type,
+      data,
+    }),
+  });
+}
+
 export const commentsService = {
   getAllComments,
   createComment,
+  notifyEventBus,
 };

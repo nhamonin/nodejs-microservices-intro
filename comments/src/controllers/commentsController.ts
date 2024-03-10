@@ -29,7 +29,15 @@ export async function createComment(
 ) {
   const { content } = request.body;
   const postId = request.params.id;
-  const post = commentsService.createComment(postId, content);
+  const comments = commentsService.createComment(postId, content);
 
-  reply.code(201).send(post);
+  commentsService.notifyEventBus({
+    type: 'CommentCreated',
+    data: {
+      postId,
+      ...comments[comments.length - 1],
+    },
+  });
+
+  reply.code(201).send(comments);
 }
