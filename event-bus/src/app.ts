@@ -3,7 +3,11 @@ import fastifyCors from '@fastify/cors';
 
 import eventBusRoutes from './routes/eventBusRoutes';
 
-const server = fastify();
+const server = fastify({
+  logger: {
+    level: 'info',
+  },
+});
 
 server.register(fastifyCors, {
   origin: '*',
