@@ -1,7 +1,7 @@
 import { randomBytes } from 'node:crypto';
 
 import { comments } from '../models/comment';
-import { IComment } from '../types';
+import { IComment, IEvent } from '../types';
 
 function getAllComments(postId: string): IComment[] {
   return comments.get(postId) || [];
@@ -39,8 +39,34 @@ async function notifyEventBus({
   });
 }
 
+async function handleEvents(event: IEvent) {
+  const { type, data } = event;
+
+  if (type === 'CommentModerated') {
+    const { postId, id, status } = data;
+
+    const postComments = comments.get(postId) || [];
+    const comment = postComments.find((comment) => comment.id === id);
+
+    if (comment) {
+      comment.status = status;
+    }
+
+    comments.set(postId, postComments);
+
+    await notifyEventBus({
+      type: 'CommentUpdated',
+      data: {
+        ...data,
+        postId,
+      },
+    });
+  }
+}
+
 export const commentsService = {
   getAllComments,
   createComment,
   notifyEventBus,
+  handleEvents,
 };
