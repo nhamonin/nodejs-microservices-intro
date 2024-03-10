@@ -7,7 +7,7 @@ function handleEvents(event: IEvent) {
   if (type === 'PostCreated') {
     const post = data as IPost;
 
-    posts.set(post.id, { post, comments: [] });
+    posts.set(post.id, { ...post, comments: [] });
   }
 
   if (type === 'CommentCreated') {
@@ -16,7 +16,7 @@ function handleEvents(event: IEvent) {
 
     if (!postWithComments) return;
 
-    postWithComments.comments.push(comment);
+    postWithComments.comments.push({ id: comment.id, content: comment.content });
   }
 }
 

@@ -6,14 +6,16 @@ import CommentList from './CommentList';
 type IPost = {
   id: string;
   title: string;
+  comments: { id: string; content: string }[];
 };
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
 
   const fetchPosts = async () => {
-    const res = await fetch('http://localhost:5174/posts');
+    const res = await fetch('http://localhost:5177/posts');
     const data = await res.json();
+
     setPosts(data);
   };
 
@@ -29,7 +31,7 @@ const PostList = () => {
             <h3>{post.title}</h3>
 
             <CommentCreate postId={post.id} />
-            <CommentList postId={post.id} />
+            <CommentList comments={post.comments} />
           </div>
         </div>
       ))}

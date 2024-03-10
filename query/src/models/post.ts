@@ -1,9 +1,3 @@
-import { IPost } from '../types';
-import { IComment } from '../types';
+import { IPostWithComments } from '../types';
 
-type PostWithComments = {
-  post: IPost;
-  comments: IComment[];
-};
-
-export const posts = new Map<string, PostWithComments>();
+export const posts = new Map<string, IPostWithComments>();
