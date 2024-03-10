@@ -19,6 +19,20 @@ function handleEvents(event: IEvent) {
 
     postWithComments.comments.push(commentWithoutPostId);
   }
+
+  if (type === 'CommentUpdated') {
+    const comment = data as IComment & { postId: string };
+    const postWithComments = posts.get(comment.postId);
+
+    if (!postWithComments) return;
+
+    const commentToUpdate = postWithComments.comments.find((c) => c.id === comment.id);
+
+    if (!commentToUpdate) return;
+
+    commentToUpdate.status = comment.status;
+    commentToUpdate.content = comment.content;
+  }
 }
 
 function getAllPostsWithComments() {

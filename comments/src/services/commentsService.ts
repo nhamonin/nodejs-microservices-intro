@@ -56,10 +56,7 @@ async function handleEvents(event: IEvent) {
 
     await notifyEventBus({
       type: 'CommentUpdated',
-      data: {
-        ...data,
-        postId,
-      },
+      data,
     });
   }
 }

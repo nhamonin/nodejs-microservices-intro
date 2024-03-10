@@ -1,5 +1,8 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 
+import { IEvent } from '../types';
+import { commentsService } from '../services/commentsService';
+
 async function routes(fastify: FastifyInstance) {
   fastify.post(
     '/events',
@@ -11,7 +14,9 @@ async function routes(fastify: FastifyInstance) {
       }>,
       reply
     ) => {
-      fastify.log.info({ eventType: request.body.type }, 'received event');
+      const event = request.body as IEvent;
+
+      await commentsService.handleEvents(event);
 
       reply.send({ status: 'OK' });
     }
