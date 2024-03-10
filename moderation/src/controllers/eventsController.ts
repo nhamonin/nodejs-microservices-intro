@@ -4,7 +4,9 @@ import { moderationService } from '../services/moderationService';
 import { IEvent } from '../types';
 
 export async function handleEvents(request: FastifyRequest, reply: FastifyReply) {
-  moderationService.handleEvents(request.body as IEvent);
+  const event = request.body as IEvent;
+
+  await moderationService.handleEvents(event);
 
   reply.send({ status: 'OK' });
 }
