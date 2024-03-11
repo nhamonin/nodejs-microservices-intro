@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "pnpm build && node dist/index.js",
     "dev": "concurrently \"tsc --watch\" \"node --watch dist/index.js | pino-pretty\"",
     "build": "tsc"
   },
