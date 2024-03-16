@@ -4,7 +4,7 @@ const port = 5175;
 
 const start = async () => {
   try {
-    await server.listen({ port });
+    await server.listen({ port, host: '0.0.0.0' });
   } catch (err) {
     console.error(err);
     process.exit(1);

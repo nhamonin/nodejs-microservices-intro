@@ -5,7 +5,7 @@ const port = 5177;
 
 const start = async () => {
   try {
-    await server.listen({ port });
+    await server.listen({ port, host: '0.0.0.0' });
     await queryService.syncEvents();
   } catch (err) {
     console.error(err);
