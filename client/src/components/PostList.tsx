@@ -14,7 +14,7 @@ const PostList = () => {
   const [posts, setPosts] = useState([]);
 
   const fetchPosts = async () => {
-    const res = await fetch('http://localhost:5177/posts');
+    const res = await fetch('http://posts.com/posts');
     const data = await res.json();
 
     setPosts(data);

@@ -1,7 +1,8 @@
 import { randomBytes } from 'node:crypto';
 
+import server from '../app';
 import { posts } from '../models/post';
-import { IPost } from '../types';
+import { IEvent, IPost } from '../types';
 
 function getAllPosts(): IPost[] {
   return Array.from(posts.values());
@@ -16,7 +17,7 @@ function createNewPost(title: string): IPost {
 }
 
 async function notifyEventBus({ type, data }: { type: string; data: IPost }) {
-  return fetch('http://localhost:5176/events', {
+  return fetch('http://event-bus-srv:5176/events', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -28,8 +29,13 @@ async function notifyEventBus({ type, data }: { type: string; data: IPost }) {
   });
 }
 
+async function handleEvents(event: IEvent) {
+  server.log.info({ event }, 'Received event');
+}
+
 export const postService = {
   getAllPosts,
   createNewPost,
   notifyEventBus,
+  handleEvents,
 };

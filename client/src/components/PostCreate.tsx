@@ -4,7 +4,7 @@ const PostCreate = () => {
   const [title, setTitle] = useState('');
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await fetch('http://localhost:5174/posts', {
+    await fetch('http://posts.com/posts/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

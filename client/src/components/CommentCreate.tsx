@@ -6,7 +6,7 @@ const CommentCreate = ({ postId }: { postId: string }) => {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    await fetch(`http://localhost:5175/posts/${postId}/comments`, {
+    await fetch(`http://posts.com/posts/${postId}/comments`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

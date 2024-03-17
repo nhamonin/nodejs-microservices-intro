@@ -1,5 +1,6 @@
 import { randomBytes } from 'node:crypto';
 
+import server from '../app';
 import { comments } from '../models/comment';
 import { IComment, IEvent } from '../types';
 
@@ -27,7 +28,7 @@ async function notifyEventBus({
   type: string;
   data: IComment & { postId: string };
 }) {
-  return fetch('http://localhost:5176/events', {
+  return fetch('http://event-bus-srv:5176/events', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -42,7 +43,9 @@ async function notifyEventBus({
 async function handleEvents(event: IEvent) {
   const { type, data } = event;
 
-  if (type === 'CommentModerated') {
+  server.log.info({ event }, 'Received event');
+
+  if (type === 'CommentModerated' && 'status' in data) {
     const { postId, id, status } = data;
 
     const postComments = comments.get(postId) || [];

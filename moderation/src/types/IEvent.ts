@@ -2,5 +2,5 @@ import { IPost, IComment } from './index';
 
 export type IEvent = {
   type: string;
-  data: IPost | IComment;
+  data: IPost | (IComment & { postId: string });
 };

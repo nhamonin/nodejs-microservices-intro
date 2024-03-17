@@ -31,7 +31,7 @@ export async function createComment(
   const postId = request.params.id;
   const comments = commentsService.createComment(postId, content);
 
-  commentsService.notifyEventBus({
+  await commentsService.notifyEventBus({
     type: 'CommentCreated',
     data: {
       postId,

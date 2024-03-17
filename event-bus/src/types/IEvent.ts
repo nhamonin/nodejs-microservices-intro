@@ -1,4 +1,6 @@
+import { IPost, IComment } from './index';
+
 export type IEvent = {
   type: string;
-  data: any;
+  data: IPost | (IComment & { postId: string });
 };

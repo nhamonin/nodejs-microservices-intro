@@ -1,17 +1,20 @@
+import server from '../app';
 import { posts } from '../models/post';
-import { IComment, IEvent, IPost } from '../types';
+import { IEvent } from '../types';
 
 function handleEvents(event: IEvent) {
   const { type, data } = event;
 
-  if (type === 'PostCreated') {
-    const post = data as IPost;
+  server.log.info({ event }, 'Received event');
+
+  if (type === 'PostCreated' && 'title' in data) {
+    const post = data;
 
     posts.set(post.id, { ...post, comments: [] });
   }
 
-  if (type === 'CommentCreated') {
-    const comment = data as IComment & { postId: string };
+  if (type === 'CommentCreated' && 'postId' in data) {
+    const comment = data;
     const postWithComments = posts.get(comment.postId);
     const { postId, ...commentWithoutPostId } = comment;
 
@@ -20,8 +23,8 @@ function handleEvents(event: IEvent) {
     postWithComments.comments.push(commentWithoutPostId);
   }
 
-  if (type === 'CommentUpdated') {
-    const comment = data as IComment & { postId: string };
+  if (type === 'CommentUpdated' && 'postId' in data) {
+    const comment = data;
     const postWithComments = posts.get(comment.postId);
 
     if (!postWithComments) return;
@@ -40,7 +43,7 @@ function getAllPostsWithComments() {
 }
 
 async function syncEvents() {
-  const events = await fetch('http://localhost:5176/events');
+  const events = await fetch('http://event-bus-srv:5176/events');
 
   if (!events.ok) {
     throw new Error('Error fetching events');
