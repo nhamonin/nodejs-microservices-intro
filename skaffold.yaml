@@ -1,0 +1,58 @@
+apiVersion: skaffold/v2beta8
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: nhamonin/microservices-intro-client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*'
+            dest: .
+    - image: nhamonin/microservices-intro-comments
+      context: comments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '/src/**/*'
+            dest: .
+    - image: nhamonin/microservices-intro-posts
+      context: posts
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '/src/**/*'
+            dest: .
+    - image: nhamonin/microservices-intro-moderation
+      context: moderation
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '/src/**/*'
+            dest: .
+    - image: nhamonin/microservices-intro-event-bus
+      context: event-bus
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '/src/**/*'
+            dest: .
+    - image: nhamonin/microservices-intro-query
+      context: query
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '/src/**/*'
+            dest: .

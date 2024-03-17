@@ -1,3 +1,5 @@
+import fetchRetry from 'fetch-retry';
+
 import server from '../app';
 import { posts } from '../models/post';
 import { IEvent } from '../types';
@@ -43,7 +45,10 @@ function getAllPostsWithComments() {
 }
 
 async function syncEvents() {
-  const events = await fetch('http://event-bus-srv:5176/events');
+  const events = await fetchRetry(global.fetch)('http://event-bus-srv:5176/events', {
+    retries: 5,
+    retryDelay: 1000,
+  });
 
   if (!events.ok) {
     throw new Error('Error fetching events');
